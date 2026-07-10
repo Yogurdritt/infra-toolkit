@@ -1,5 +1,7 @@
 import dns.resolver
 
+
+
 def run_dns_lookup():
 
     domain = input("Enter a domain to resolve: ")   
@@ -33,9 +35,11 @@ def run_dns_lookup():
                     print(f"{allowed_records[record_type]} records:")
                     for record in resolution:
                         print(f"- {record}")
+                    print("\n")
+
                 
                 except  dns.resolver.NoAnswer:
-                     print(f"Error, the selected domain does not have any {allowed_records[record_type]} record registered.")
+                     print(f"Error, the selected domain does not have any {allowed_records[record_type]} record registered.\n")
         
         else:
                           
@@ -44,8 +48,9 @@ def run_dns_lookup():
             print(f"{record_selection.upper()} records:")
             for record in resolution:
                     print(f"- {record}")
+            print("\n")
 
-        print("\nQuery executed successfully\n")
+        print("Query executed successfully\n")
 
 
     except dns.resolver.NXDOMAIN:
