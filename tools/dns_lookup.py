@@ -64,5 +64,39 @@ def Run_Dns_Lookup():
     except dns.resolver.NoNameservers:
         print("Error: No DNS servers available\n")
 
-def Ip_Address_Resolver():
-     return
+def PRT_Record():
+     
+    Ip_To_Resolve = input(str("Enter an IPv4 (x.x.x.x; from 0 to 255) address to check it's PRT record (associated domain name): ")) #the dns.resolver.resolve_address function only accepts strings as an argument.
+     
+    
+    if isinstance(Ip_To_Resolve, str):
+
+        Separated_Ip_Numbers = Ip_To_Resolve.split(".")
+
+        if len(Separated_Ip_Numbers) != 4:
+            print("Error, more than 4 dot-separated segments were introduced.")
+            return
+
+        for Ip in Separated_Ip_Numbers:
+            if not Ip.isnumeric():
+                print("Error, the IP segments are not numeric.")
+                return
+            if Ip < 0 or Ip > 255:
+                print("Error, the IP segments are not between 0 and 255.")
+                return
+            
+        PRT_Record_Resolution = dns.resolver.resolve_address(Ip_To_Resolve)
+
+        print(f"PRT record for {Ip_To_Resolve} address:")
+        for records in PRT_Record_Resolution:
+            print(f"- {records}")
+
+    else: 
+        print("Error, provided IP format is not valid.")
+        
+    
+    
+     
+    
+
+     
