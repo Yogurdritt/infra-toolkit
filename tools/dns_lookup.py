@@ -1,13 +1,11 @@
 import dns.resolver
 
-
-
-def run_dns_lookup():
+def Run_Dns_Lookup():
 
     domain = input("Enter a domain to resolve: ")   
 
     if not domain or "." not in domain:
-            print("Invalid domain format")
+            print("Invalid domain format.")
             return
     
     domain_to_resolve = domain.lower()
@@ -19,7 +17,7 @@ def run_dns_lookup():
     record_selection = input("Select the type of record you want to consult, or if you want to consult all (<type>/all): ")                             
 
     if record_selection.upper() not in allowed_records and record_selection.upper() != "ALL":
-        print("Invalid record type.")   
+        print("Invalid selecction.")   
         return     
           
 
@@ -27,19 +25,23 @@ def run_dns_lookup():
         print(f"\nDomain: {domain_to_resolve}")        
 
         if record_selection.upper() == "ALL":
-             for record_type in range(len(allowed_records)-1): 
+             for record_type in allowed_records: 
 
                 try:
-                    resolution = dns.resolver.resolve(domain_to_resolve, allowed_records[record_type])
+                    resolution = dns.resolver.resolve(domain_to_resolve, record_type)
 
-                    print(f"{allowed_records[record_type]} records:")
-                    for record in resolution:
-                        print(f"- {record}")
-                    print("\n")
-
+                    if record_type == "A": #If statement for formatting after the "Domain: <domain.com>" print
+                         print(f"---------\n{record_type} records:")
+                         for record in resolution:
+                            print(f"- {record}")
+                    else:
+                        print(f"\n{record_type} records:")
+                        for record in resolution:
+                            print(f"- {record}")
                 
                 except  dns.resolver.NoAnswer:
-                     print(f"Error, the selected domain does not have any {allowed_records[record_type]} record registered.\n")
+                     print(f"Error, the selected domain does not have any {record_type} record registered.\n")
+                
         
         else:
                           
@@ -48,9 +50,9 @@ def run_dns_lookup():
             print(f"{record_selection.upper()} records:")
             for record in resolution:
                     print(f"- {record}")
-            print("\n")
+            
 
-        print("Query executed successfully\n")
+        print("\nQuery executed successfully\n")
 
 
     except dns.resolver.NXDOMAIN:
@@ -61,3 +63,6 @@ def run_dns_lookup():
 
     except dns.resolver.NoNameservers:
         print("Error: No DNS servers available\n")
+
+def Ip_Address_Resolver():
+     return
