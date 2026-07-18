@@ -5,7 +5,7 @@ def Run_Dns_Lookup():
     domain = input("Enter a domain to resolve: ")   
 
     if not domain or "." not in domain:
-            print("Invalid domain format.")
+            print("****Invalid domain format.")
             return
     
     domain_to_resolve = domain.lower()
@@ -17,7 +17,7 @@ def Run_Dns_Lookup():
     record_selection = input("Select the type of record you want to consult, or if you want to consult all (<type>/all): ")                             
 
     if record_selection.upper() not in allowed_records and record_selection.upper() != "ALL":
-        print("Invalid selecction.")   
+        print("****Invalid selecction.")   
         return     
           
 
@@ -40,7 +40,7 @@ def Run_Dns_Lookup():
                             print(f"- {record}")
                 
                 except  dns.resolver.NoAnswer:
-                     print(f"Error, the selected domain does not have any {record_type} record registered.\n")
+                     print(f"***Error, the selected domain does not have any {record_type} record registered.\n")
                 
         
         else:
@@ -56,45 +56,56 @@ def Run_Dns_Lookup():
 
 
     except dns.resolver.NXDOMAIN:
-        print(f"Error, The DNS query name {domain_to_resolve} does not exist.\n")
+        print(f"***Error, The DNS query name {domain_to_resolve} does not exist.\n")
     
     except dns.resolver.Timeout:
-        print("Error: DNS query timed out.\n")
+        print("***Error: DNS query timed out.\n")
 
     except dns.resolver.NoNameservers:
-        print("Error: No DNS servers available\n")
+        print("***Error: No DNS servers available\n")
 
 def PRT_Record():
      
     Ip_To_Resolve = input(str("Enter an IPv4 (x.x.x.x; from 0 to 255) address to check it's PRT record (associated domain name): ")) #the dns.resolver.resolve_address function only accepts strings as an argument.
      
-    
-    if isinstance(Ip_To_Resolve, str):
+    try:
+        if Ip_To_Resolve == "":
+            print("***Error, the entered IP address is blank.\n")
 
-        Separated_Ip_Numbers = Ip_To_Resolve.split(".")
+        elif isinstance(Ip_To_Resolve, str):
 
-        if len(Separated_Ip_Numbers) != 4:
-            print("Error, more than 4 dot-separated segments were introduced.")
-            return
+            Separated_Ip_Numbers = Ip_To_Resolve.split(".")
 
-        for Ip in Separated_Ip_Numbers:
-            if not Ip.isnumeric():
-                print("Error, the IP segments are not numeric.")
+            if len(Separated_Ip_Numbers) != 4:
+                print("***Error, the number of dot-separated segments that were introduced is not 4.\n")
                 return
-            if Ip < 0 or Ip > 255:
-                print("Error, the IP segments are not between 0 and 255.")
-                return
-            
-        PRT_Record_Resolution = dns.resolver.resolve_address(Ip_To_Resolve)
 
-        print(f"PRT record for {Ip_To_Resolve} address:")
-        for records in PRT_Record_Resolution:
-            print(f"- {records}")
+            for Ip in Separated_Ip_Numbers:
+                if not Ip.isnumeric():
+                    print("***Error, the IP segments are not numeric.\n")
+                    return
+                if int(Ip) < 0 or int(Ip) > 255:
+                    print("***Error, the IP segments are not between 0 and 255.\n")
+                    return
+                
+            PRT_Record_Resolution = dns.resolver.resolve_address(Ip_To_Resolve)
 
-    else: 
-        print("Error, provided IP format is not valid.")
+            print(f"PRT record for {Ip_To_Resolve} address:")
+            for records in PRT_Record_Resolution:
+                print(f"- {records}")
+
+        else: 
+            print("***Error, provided IP format is not valid.\n")
         
+    except dns.resolver.NXDOMAIN:
+        print(f"***Error, the IP {Ip_To_Resolve} does not have any PRT record registered.\n")
     
+    except dns.resolver.Timeout:
+        print("***Error: DNS query timed out.\n")
+    
+    except dns.resolver.NoNameservers:
+        print("***Error: No DNS servers available\n")
+        
     
      
     
