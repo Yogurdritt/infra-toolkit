@@ -31,16 +31,16 @@ def Run_Dns_Lookup():
                     resolution = dns.resolver.resolve(domain_to_resolve, record_type)
 
                     if record_type == "A": #If statement for formatting after the "Domain: <domain.com>" print
-                         print(f"---------\n{record_type} records:")
+                         print(f"{record_type} records:\n--------")
                          for record in resolution:
                             print(f"- {record}")
                     else:
-                        print(f"\n{record_type} records:")
+                        print(f"\n{record_type} records:\n--------")
                         for record in resolution:
                             print(f"- {record}")
                 
                 except  dns.resolver.NoAnswer:
-                     print(f"***Error, the selected domain does not have any {record_type} record registered.\n")
+                     print(f"\n***Error, the selected domain does not have any {record_type} record registered.")
                 
         
         else:
@@ -55,8 +55,8 @@ def Run_Dns_Lookup():
         print("\nQuery executed successfully\n")
 
 
-    except dns.resolver.NXDOMAIN:
-        print(f"***Error, The DNS query name {domain_to_resolve} does not exist.\n")
+   # except dns.resolver.NXDOMAIN:
+   #     print(f"***Error, The DNS query name {domain_to_resolve} does not exist.\n")
     
     except dns.resolver.Timeout:
         print("***Error: DNS query timed out.\n")
@@ -82,7 +82,7 @@ def PRT_Record():
 
             for Ip in Separated_Ip_Numbers:
                 if not Ip.isnumeric():
-                    print("***Error, the IP segments are not numeric.\n")
+                    print("***Error,one or more of the IP segments are not numeric.\n")
                     return
                 if int(Ip) < 0 or int(Ip) > 255:
                     print("***Error, the IP segments are not between 0 and 255.\n")
