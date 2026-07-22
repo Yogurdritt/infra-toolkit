@@ -4,7 +4,8 @@ while True:
 
     print("====================\nInfra Toolkit\n====================\n")
     print("Available tools:\n")
-    print("1. DNS Lookup:")
+    print("1. DNS Lookup")
+    print("2. PRT Record lookup (Reverse DNS)")
     print("Comming Soon...\n")
 
     seleccion = int(input("Select a tool from above: "))
@@ -12,6 +13,8 @@ while True:
 
     match seleccion:
         case 1:
-            dns_lookup.run_dns_lookup()
+            dns_lookup.Run_Dns_Lookup()
+        case 2:
+            dns_lookup.PRT_Record()            
         case _:
             print("Not implemented yet")
